@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import {
 	FlatList,
 	Linking,
+	ListRenderItem,
 	SafeAreaView,
 	StyleSheet,
 	TouchableOpacity,
@@ -13,13 +14,18 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { ThemedText } from "@/components/ThemedText";
 import { WarehouseItem } from "@/models/WarehouseItem";
 import { ProductListing } from "@/components/ProductListing";
-import { ProductsMock } from "@/mocks/Products.mock";
 import { SocialIcons } from "@/constants/SocialIcons";
+import { useGetWarehouseProductsQuery } from "@/store/api/apiSlice";
+
+const keyExtractor = (item: WarehouseItem) => {
+	return item.id.toString();
+};
 
 export default function Index() {
 	const theme = useColorScheme() ?? "light";
+	const { data } = useGetWarehouseProductsQuery({ page: 0, pageSize: 20 });
 
-	const [products, setProducts] = useState<WarehouseItem[]>([]);
+	const products = data?.data || [];
 
 	const openURL = (url: string) => {
 		Linking.openURL(url).catch((err) =>
@@ -27,14 +33,10 @@ export default function Index() {
 		);
 	};
 
-	const renderItem = useCallback(
-		({ item }: { item: WarehouseItem }) => <ProductListing item={item} />,
+	const renderItem: ListRenderItem<WarehouseItem> = useCallback(
+		({ item }) => <ProductListing item={item} />,
 		[],
 	);
-
-	useEffect(() => {
-		setProducts(ProductsMock);
-	}, []);
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -71,9 +73,9 @@ export default function Index() {
 				</View>
 			</View>
 
-			<FlatList
+			<FlatList<WarehouseItem>
 				data={products}
-				keyExtractor={(item) => item.id.toString()}
+				keyExtractor={keyExtractor}
 				renderItem={renderItem}
 			/>
 		</SafeAreaView>
