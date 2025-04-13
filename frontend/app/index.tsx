@@ -1,37 +1,24 @@
 import { useCallback } from "react";
 import {
+	ActivityIndicator,
 	FlatList,
-	Linking,
 	ListRenderItem,
 	SafeAreaView,
 	StyleSheet,
-	TouchableOpacity,
-	View,
 } from "react-native";
-import { Colors } from "@/constants/Colors";
-import { IconSymbol, IconSymbolName } from "@/components/ui/IconSymbol";
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { ThemedText } from "@/components/ThemedText";
+
 import { WarehouseItem } from "@/models/WarehouseItem";
 import { ProductListing } from "@/components/ProductListing";
-import { SocialIcons } from "@/constants/SocialIcons";
-import { useGetWarehouseProductsQuery } from "@/store/api/apiSlice";
+import { CloudTalkBanner } from "@/components/CloudTalkBanner";
+import { Config } from "@/constants/Config";
+import { useGetWarehouseProducts } from "@/hooks/useGetWarehouseProduckts";
 
 const keyExtractor = (item: WarehouseItem) => {
-	return item.id.toString();
+	return item.id;
 };
 
 export default function Index() {
-	const theme = useColorScheme() ?? "light";
-	const { data } = useGetWarehouseProductsQuery({ page: 0, pageSize: 20 });
-
-	const products = data?.data || [];
-
-	const openURL = (url: string) => {
-		Linking.openURL(url).catch((err) =>
-			console.error("An error occurred", err),
-		);
-	};
+	const { products, fetchNextPage, isLoading } = useGetWarehouseProducts();
 
 	const renderItem: ListRenderItem<WarehouseItem> = useCallback(
 		({ item }) => <ProductListing item={item} />,
@@ -40,43 +27,17 @@ export default function Index() {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<View style={styles.header}>
-				<ThemedText
-					type="defaultSemiBold"
-					style={styles.headerText}
-					lightColor={Colors.light.textInverse}
-					darkColor={Colors.dark.textInverse}
-				>
-					Welcome adventurer and Good luck, looking forward to meeting
-					you!
-				</ThemedText>
-				<View style={styles.socialIcons}>
-					{SocialIcons.map((icon) => (
-						<TouchableOpacity
-							key={icon.name}
-							onPress={() => {
-								openURL(icon.link);
-							}}
-						>
-							<IconSymbol
-								name={icon.name as IconSymbolName}
-								size={18}
-								weight="medium"
-								color={
-									theme === "light"
-										? Colors.light.textInverse
-										: Colors.dark.textInverse
-								}
-							/>
-						</TouchableOpacity>
-					))}
-				</View>
-			</View>
-
+			<CloudTalkBanner />
 			<FlatList<WarehouseItem>
 				data={products}
 				keyExtractor={keyExtractor}
 				renderItem={renderItem}
+				initialNumToRender={Config.PRODUCT_LIST_BATCH_SIZE}
+				maxToRenderPerBatch={Config.PRODUCT_LIST_BATCH_SIZE}
+				onEndReachedThreshold={0.9}
+				onEndReached={fetchNextPage}
+				ListFooterComponent={isLoading ? <ActivityIndicator /> : null}
+				ListFooterComponentStyle={styles.footer}
 			/>
 		</SafeAreaView>
 	);
@@ -87,19 +48,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: "white",
 	},
-	header: {
-		backgroundColor: "#0A0A32",
-		padding: 15,
-		flexDirection: "row",
-		justifyContent: "space-between",
-		gap: 4,
+	footer: {
+		padding: 10,
 		alignItems: "center",
-	},
-	headerText: {
-		flex: 1,
-	},
-	socialIcons: {
-		flexDirection: "row",
-		gap: 10,
+		justifyContent: "center",
+		height: 50,
 	},
 });

@@ -3,8 +3,8 @@ import { WarehouseItem } from "@/models/WarehouseItem";
 
 import { faker } from "@faker-js/faker";
 
-const generateWarehouseItem = (id: number): WarehouseItem => ({
-	id,
+const generateWarehouseItem = (): WarehouseItem => ({
+	id: faker.string.uuid(),
 	imageUrl: faker.image.urlLoremFlickr(),
 	name: faker.commerce.productName(),
 	description: faker.lorem.sentence(),
@@ -22,12 +22,12 @@ export const generateWarehouseItemsPage = (
 	const endIndex = Math.min(startIndex + pageSize, totalItems);
 
 	for (let i = startIndex; i < endIndex; i++) {
-		items.push(generateWarehouseItem(i + 1));
+		items.push(generateWarehouseItem());
 	}
-
 	return {
 		data: items,
 		page,
 		total: totalItems,
+		hasNextPage: endIndex < totalItems,
 	};
 };

@@ -6,13 +6,17 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const api = createApi({
 	reducerPath: "warehouseApi",
-	baseQuery: fetchBaseQuery({ baseUrl: Config.API_URL }),
+	baseQuery: fetchBaseQuery({
+		baseUrl: Config.API_URL,
+	}),
 	endpoints: (builder) => ({
 		getWarehouseProducts: builder.query<
 			WarehouseGetProductResponse,
 			PageRequest
 		>({
 			queryFn: async (queryParams: PageRequest) => {
+				await new Promise((resolve) => setTimeout(resolve, 1000));
+
 				const result = generateWarehouseItemsPage(
 					queryParams.page,
 					queryParams.pageSize || 20,
