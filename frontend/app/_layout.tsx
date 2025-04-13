@@ -33,7 +33,9 @@ export default function RootLayout() {
 			<ThemeProvider
 				value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
 			>
-				<Stack screenOptions={{ headerShown: false }} />
+				<Stack screenOptions={{ headerShown: false }}>
+					<Stack.Screen name="product" />
+				</Stack>
 				<StatusBar style="auto" />
 			</ThemeProvider>
 		</Provider>

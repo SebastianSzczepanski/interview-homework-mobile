@@ -3,9 +3,9 @@ import { WarehouseItem } from "@/models/WarehouseItem";
 
 import { faker } from "@faker-js/faker";
 
-const generateWarehouseItem = (): WarehouseItem => ({
-	id: faker.string.uuid(),
-	imageUrl: faker.image.urlLoremFlickr(),
+export const generateWarehouseItem = (id?: string): WarehouseItem => ({
+	id: id || faker.string.uuid(),
+	imageUrl: faker.image.urlPicsumPhotos({width: 2000, height: 2000}),
 	name: faker.commerce.productName(),
 	description: faker.lorem.sentence(),
 	quantity: faker.number.int({ min: 0, max: 1000 }),

@@ -12,16 +12,28 @@ import { ProductListing } from "@/components/ProductListing";
 import { CloudTalkBanner } from "@/components/CloudTalkBanner";
 import { Config } from "@/constants/Config";
 import { useGetWarehouseProducts } from "@/hooks/useGetWarehouseProduckts";
+import { useRouter } from "expo-router";
 
 const keyExtractor = (item: WarehouseItem) => {
 	return item.id;
 };
 
 export default function Index() {
+	const router = useRouter();
+
 	const { products, fetchNextPage, isLoading } = useGetWarehouseProducts();
 
+	const handleProductPress = useCallback(
+		({ id }: WarehouseItem) => {
+			return router.push({ pathname: "/product", params: { id } });
+		},
+		[router],
+	);
+
 	const renderItem: ListRenderItem<WarehouseItem> = useCallback(
-		({ item }) => <ProductListing item={item} />,
+		({ item }) => (
+			<ProductListing item={item} onPress={handleProductPress} />
+		),
 		[],
 	);
 

@@ -10,24 +10,26 @@ import { WarehouseItem } from "@/models/WarehouseItem";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Colors } from "@/constants/Colors";
+import { formatCurrency } from "@/utils/formatCurrency";
 
 export type ProductListingProps = {
 	item: WarehouseItem;
 	style?: StyleProp<ViewStyle>;
+	onPress?: (item: WarehouseItem) => void;
 };
 
-export function ProductListing({
-	item: { name, description, quantity, unitPrice },
-	style,
-}: ProductListingProps) {
+export function ProductListing({ item, style, onPress }: ProductListingProps) {
 	const theme = useColorScheme() ?? "light";
+	const { name, description, quantity, unitPrice } = item;
 
-	const formatCurrency = (amount: number) => {
-		return `€${parseFloat(amount.toString()).toFixed(2)}`;
+	const handlePress = () => {
+		if (onPress) {
+			onPress(item);
+		}
 	};
 
 	return (
-		<View style={[styles.container, style]}>
+		<Pressable style={[styles.container, style]} onPress={handlePress}>
 			<View style={styles.productInfo}>
 				<ThemedText type="defaultSemiBold">{name}</ThemedText>
 				<ThemedText
@@ -56,7 +58,7 @@ export function ProductListing({
 					}
 				/>
 			</Pressable>
-		</View>
+		</Pressable>
 	);
 }
 

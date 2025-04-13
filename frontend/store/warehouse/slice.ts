@@ -1,7 +1,4 @@
-import {
-	createEntityAdapter,
-	createSlice,
-} from "@reduxjs/toolkit";
+import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { WarehouseItem } from "@/models/WarehouseItem";
 import { api } from "../api/apiSlice";
 
