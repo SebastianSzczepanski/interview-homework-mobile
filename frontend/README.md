@@ -1,3 +1,20 @@
+# To the reviewer 👋:
+
+Thanks for taking the time to review my task! I just wanted to clarify a few things that might come up during the review — I’ll try to summarize everything here.
+
+The app consists of four screens: a product list, a cart, a product details view, and a screen for adding products to the warehouse. I used Redux with RTK Query as the state manager. While this might seem like a heavy choice for such a small app, the task mentioned that the solution should be scalable — and this setup definitely supports that.
+
+I assumed the product list could get pretty long, so I implemented pagination on the frontend, assuming the backend would support it too.
+
+Another assumption was that the product would have a separate endpoint returning detailed data. On the product details screen, I simulate an API request, even though I technically already have all the data from the list view. But in a real-world scenario, calling a dedicated endpoint would probably be necessary.
+
+To mock API responses, I used Faker.js — that’s why you’ll notice different data when selecting a product on the list vs. viewing it on the details screen. This is because the details view fetches data from a different endpoint, and unfortunately, I don’t have a way to keep the mocked data consistent across both.
+
+The project already included predefined styles, so I assumed you wanted to keep them as-is. In a real production app, I’d prefer to use a styling library like Unistyles, or even a component library like Tamagui or Gluestack.
+
+If you have any questions, I’d be happy to answer them.
+Enjoy the review!
+
 # React Native application for Warehouse
 
 This repository serves as the scaffold of the application that is a part of the interview process for candidates attending on the position in CloudTalk.

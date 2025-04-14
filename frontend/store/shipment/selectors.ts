@@ -34,18 +34,3 @@ export const selectProductsToShipCount = createSelector(
 			0,
 		),
 );
-
-export const selectProductFromShipment = (productId: string) =>
-	createSelector(
-		[selectShipment],
-		(shipment) =>
-			shipment?.productsToShip?.find((p) => p.id === productId) ?? false,
-	);
-
-export const selectProductQuantityInShipment = (productId: string) =>
-	createSelector(
-		[selectShipment],
-		(shipment) =>
-			shipment?.productsToShip?.find((p) => p.id === productId)
-				?.quantity ?? 0,
-	);

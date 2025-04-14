@@ -13,6 +13,7 @@ import { Config } from "@/constants/Config";
 import { useGetWarehouseProducts } from "@/hooks/useGetWarehouseProduckts";
 import { useRouter } from "expo-router";
 import { ProductListHeader } from "@/components/productsList/ProductListHeader";
+import { CloudTalkBanner } from "@/components/CloudTalkBanner";
 
 const keyExtractor = (item: WarehouseItem) => {
 	return item.id;
@@ -34,11 +35,12 @@ export default function Index() {
 		({ item }) => (
 			<ProductListing item={item} onPress={handleProductPress} />
 		),
-		[],
+		[handleProductPress],
 	);
 
 	return (
 		<SafeAreaView style={styles.container}>
+			<CloudTalkBanner />
 			<ProductListHeader />
 			<FlatList<WarehouseItem>
 				testID="product-list"

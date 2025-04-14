@@ -53,7 +53,6 @@ export const ProductForm = ({ control, title }: Props) => (
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: "#F9F9F9",
 		padding: 32,
 		marginHorizontal: -16,
 	},

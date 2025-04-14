@@ -32,13 +32,13 @@ const Button: React.FC<ButtonProps> = ({
     const buttonStyles = [
         styles.button,
         variant === "secondary" && styles.secondaryButton,
-        isDarkMode && { backgroundColor: Colors.dark.tint },
+        isDarkMode && { backgroundColor: Colors.dark.button },
         disabled && styles.disabledButton,
         style,
     ];
     const textStyles = [
         styles.text,
-        variant === "secondary" && { color: Colors.light.tint },
+        variant === "secondary" && { color: Colors.light.button },
         isDarkMode && { color: Colors.dark.text },
         disabled && styles.disabledText,
     ];
@@ -63,7 +63,7 @@ const Button: React.FC<ButtonProps> = ({
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: Colors.light.tint,
+        backgroundColor: Colors.light.button,
         padding: 12,
         borderRadius: 4,
         alignItems: "center",
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     secondaryButton: {
         backgroundColor: "transparent",
         borderWidth: 1,
-        borderColor: Colors.light.tint,
+        borderColor: Colors.light.button,
     },
     disabledButton: {
         borderColor: Colors.light.icon,

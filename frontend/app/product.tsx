@@ -12,7 +12,7 @@ import {
 } from "@/store/api/apiSlice";
 import { ProductDetails } from "@/components/productDetails/ProductDetails";
 import { ProductErrorState } from "@/components/productDetails/ProductErrorState";
-import { ProductForm } from "@/components/productDetails/ProductForm";
+import { ProductForm } from "@/components/ProductForm";
 import { ProductImage } from "@/components/productDetails/ProductImage";
 import { ProductLoadingState } from "@/components/productDetails/ProductLoadingState";
 import Button from "@/components/ui/Button";
@@ -100,7 +100,7 @@ export default function Product() {
 	if (!product) return <ProductErrorState onBack={router.back} />;
 
 	const productMutationLoading = updating || deleting;
-	
+
 	return (
 		<>
 			<ScreenHeader title="Product Details" />
@@ -112,8 +112,9 @@ export default function Product() {
 				>
 					<ProductImage uri={product.imageUrl} />
 					<ProductDetails product={product} />
-					<ProductForm control={control} title="Update product" />
-
+					<View style={styles.formContainer}>
+						<ProductForm control={control} title="Update product" />
+					</View>
 					<View style={styles.buttons}>
 						<Button
 							onPress={handleDelete}
@@ -141,6 +142,9 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "white",
+	},
+	formContainer:{
+		backgroundColor: "#F2F2F2"
 	},
 	buttons: {
 		flexDirection: "row",

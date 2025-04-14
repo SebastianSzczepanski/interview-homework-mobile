@@ -1,22 +1,13 @@
-import React, { useEffect } from "react";
-import { Alert, Pressable, SafeAreaView, StyleSheet } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import React from "react";
+import { Alert, SafeAreaView, StyleSheet } from "react-native";
 import { useForm } from "react-hook-form";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { ScreenHeader } from "@/components/ScreenHeader";
-import {
-	useCreateProductMutation,
-	useDeleteProductMutation,
-	useGetWarehouseProductByIdQuery,
-	useUpdateProductMutation,
-} from "@/store/api/apiSlice";
-import { ProductDetails } from "@/components/productDetails/ProductDetails";
-import { ProductErrorState } from "@/components/productDetails/ProductErrorState";
-import { ProductForm } from "@/components/productDetails/ProductForm";
-import { ProductImage } from "@/components/productDetails/ProductImage";
-import { ProductLoadingState } from "@/components/productDetails/ProductLoadingState";
-import { ThemedText } from "@/components/ThemedText";
+import { useCreateProductMutation } from "@/store/api/apiSlice";
+
+import { ProductForm } from "@/components/ProductForm";
+
 import Button from "@/components/ui/Button";
 
 export type FormValues = {
@@ -49,6 +40,7 @@ export default function CreateProduct() {
 			}).unwrap();
 			Alert.alert("Success", "Product created successfully");
 		} catch (error) {
+			console.error("Error creating product:", error);
 			Alert.alert("Error", "Failed to create product");
 		}
 	};
