@@ -8,11 +8,11 @@ import {
 } from "react-native";
 
 import { WarehouseItem } from "@/models/WarehouseItem";
-import { ProductListing } from "@/components/ProductListing";
-import { CloudTalkBanner } from "@/components/CloudTalkBanner";
+import { ProductListing } from "@/components/productsList/ProductListing";
 import { Config } from "@/constants/Config";
 import { useGetWarehouseProducts } from "@/hooks/useGetWarehouseProduckts";
 import { useRouter } from "expo-router";
+import { ProductListHeader } from "@/components/productsList/ProductListHeader";
 
 const keyExtractor = (item: WarehouseItem) => {
 	return item.id;
@@ -39,7 +39,7 @@ export default function Index() {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<CloudTalkBanner />
+			<ProductListHeader />
 			<FlatList<WarehouseItem>
 				data={products}
 				keyExtractor={keyExtractor}

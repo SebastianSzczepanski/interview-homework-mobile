@@ -11,6 +11,9 @@ import { IconSymbol } from "@/components/ui/IconSymbol";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Colors } from "@/constants/Colors";
 import { formatCurrency } from "@/utils/formatCurrency";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store";
+import { addProductToShip } from "@/store/shipment/slice";
 
 export type ProductListingProps = {
 	item: WarehouseItem;
@@ -21,11 +24,16 @@ export type ProductListingProps = {
 export function ProductListing({ item, style, onPress }: ProductListingProps) {
 	const theme = useColorScheme() ?? "light";
 	const { name, description, quantity, unitPrice } = item;
+	const dispatch = useDispatch<AppDispatch>();
 
 	const handlePress = () => {
 		if (onPress) {
 			onPress(item);
 		}
+	};
+
+	const handleAddToShipment = () => {
+		dispatch(addProductToShip({ id: item.id, quantity: 1 }));
 	};
 
 	return (
@@ -47,7 +55,7 @@ export function ProductListing({ item, style, onPress }: ProductListingProps) {
 			</ThemedText>
 			<Pressable
 				style={styles.addButton}
-				onPress={() => {}}
+				onPress={handleAddToShipment}
 				accessibilityLabel={`Add ${name} to Shipment`}
 			>
 				<IconSymbol
