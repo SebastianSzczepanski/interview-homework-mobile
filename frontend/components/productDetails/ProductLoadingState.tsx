@@ -7,7 +7,7 @@ export const ProductLoadingState = () => {
 	const theme = useColorScheme() ?? "light";
 	return (
 		<View style={styles.centered}>
-			<ActivityIndicator size="large" color={Colors[theme].text} />
+			<ActivityIndicator size="large" testID="loading-state" color={Colors[theme].text} />
 		</View>
 	);
 };

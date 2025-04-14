@@ -2,14 +2,19 @@ import React from "react";
 import { View, Pressable, StyleSheet } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { formatCurrency } from "@/utils/formatCurrency";
+import { useSelector } from "react-redux";
+import { selectProductsToShipCount, selectTotalPriceToShip } from "@/store/shipment/selectors";
 
 type CartSummaryProps = {
-	totalItems: number;
-	totalPrice: number;
+
 	onCheckout?: () => void;
 };
 
-export const CartSummary = ({ totalItems, totalPrice, onCheckout }: CartSummaryProps) => {
+export const CartSummary = ({  onCheckout }: CartSummaryProps) => {
+
+	const totalItems = useSelector(selectProductsToShipCount);
+	const totalPrice = useSelector(selectTotalPriceToShip);
+	
 	return (
 		<View style={styles.container}>
 			<View style={styles.row}>

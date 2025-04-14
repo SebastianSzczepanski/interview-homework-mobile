@@ -25,6 +25,8 @@ export const ProductDetails = ({ product }: Props) => (
 
 		<ThemedText style={styles.sectionTitle}>Description</ThemedText>
 		<ThemedText style={styles.description}>{product.description}</ThemedText>
+		<ThemedText style={styles.sectionTitle}>Product ID</ThemedText>
+		<ThemedText style={styles.description}>{product.id}</ThemedText>
 	</View>
 );
 

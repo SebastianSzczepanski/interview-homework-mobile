@@ -37,7 +37,7 @@ export function ProductListing({ item, style, onPress }: ProductListingProps) {
 	};
 
 	return (
-		<Pressable style={[styles.container, style]} onPress={handlePress}>
+		<Pressable style={[styles.container, style]} onPress={handlePress} testID={`product-listing-${item.id}`}>
 			<View style={styles.productInfo}>
 				<ThemedText type="defaultSemiBold">{name}</ThemedText>
 				<ThemedText

@@ -1,6 +1,5 @@
 import React from "react";
 import {
-	View,
 	StyleSheet,
 	FlatList,
 	SafeAreaView,
@@ -9,10 +8,7 @@ import {
 } from "react-native";
 import { useSelector } from "react-redux";
 import { useRouter } from "expo-router";
-import {
-	selectProductsToShip,
-	selectTotalPriceToShip,
-} from "@/store/shipment/selectors";
+import { selectProductsToShip } from "@/store/shipment/selectors";
 import { CartListItem } from "@/components/shiping/CartListItem";
 import { ShipmentItem } from "@/models/ShipmentItem";
 import { ScreenHeader } from "@/components/ScreenHeader";
@@ -25,15 +21,17 @@ const keyExtractor = (item: ShipmentItem) => item.product.id;
 export default function Cart() {
 	const router = useRouter();
 	const productsInCart = useSelector(selectProductsToShip);
-	const totalPrice = useSelector(selectTotalPriceToShip);
 
 	const renderItem: ListRenderItem<ShipmentItem> = ({ item }) => (
 		<CartListItem {...item} />
 	);
 
 	const handleGoToCheckout = () => {
-		Alert.alert("This is a placeholder", "Checkout functionality is not implemented yet.");
-	}
+		Alert.alert(
+			"This is a placeholder",
+			"Checkout functionality is not implemented yet.",
+		);
+	};
 
 	return (
 		<>
@@ -50,11 +48,7 @@ export default function Cart() {
 					ListHeaderComponent={<CartListHeader />}
 				/>
 
-				<CartSummary
-					totalItems={productsInCart.length}
-					totalPrice={totalPrice}
-					onCheckout={handleGoToCheckout}
-				/>
+				<CartSummary onCheckout={handleGoToCheckout} />
 			</SafeAreaView>
 		</>
 	);

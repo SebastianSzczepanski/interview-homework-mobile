@@ -43,7 +43,7 @@ const shipmentSlice = createSlice({
 		},
 		deleteProductToShip: (state, action) => {
 			state.productsToShip = state.productsToShip.filter(
-				(id) => id !== action.payload,
+				(id) => id === action.payload,
 			);
 		},
 	},

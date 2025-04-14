@@ -41,6 +41,7 @@ export default function Index() {
 		<SafeAreaView style={styles.container}>
 			<ProductListHeader />
 			<FlatList<WarehouseItem>
+				testID="product-list"
 				data={products}
 				keyExtractor={keyExtractor}
 				renderItem={renderItem}
@@ -48,7 +49,7 @@ export default function Index() {
 				maxToRenderPerBatch={Config.PRODUCT_LIST_BATCH_SIZE}
 				onEndReachedThreshold={0.9}
 				onEndReached={fetchNextPage}
-				ListFooterComponent={isLoading ? <ActivityIndicator /> : null}
+				ListFooterComponent={isLoading ? <ActivityIndicator testID="loading-state" /> : null}
 				ListFooterComponentStyle={styles.footer}
 			/>
 		</SafeAreaView>

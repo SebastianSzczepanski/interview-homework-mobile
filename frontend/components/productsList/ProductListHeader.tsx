@@ -30,7 +30,7 @@ export const ProductListHeader = () => {
 	};
 
 	return (
-		<View style={styles.header}>
+		<View style={styles.header} testID="product-list-header">
 			<View style={styles.actionsContainer}>
 				<TouchableOpacity
 					style={styles.cartIconContainer}

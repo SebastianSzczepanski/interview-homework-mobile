@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Alert, SafeAreaView, StyleSheet } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useForm } from "react-hook-form";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import { useColorScheme } from "@/hooks/useColorScheme";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import {
 	useDeleteProductMutation,
@@ -27,7 +26,6 @@ type FormData = {
 export default function Product() {
 	const { id } = useLocalSearchParams<{ id: string }>();
 	const router = useRouter();
-	const theme = useColorScheme() ?? "light";
 
 	const { data: product, isLoading } = useGetWarehouseProductByIdQuery({
 		id,
@@ -35,14 +33,25 @@ export default function Product() {
 	const [updateProduct, { isLoading: updating }] = useUpdateProductMutation();
 	const [deleteProduct, { isLoading: deleting }] = useDeleteProductMutation();
 
-	const { control, handleSubmit } = useForm<FormData>({
+	const { control, handleSubmit, reset } = useForm<FormData>({
 		defaultValues: {
-			name: product?.name || "",
-			description: product?.description || "",
-			quantity: product?.quantity?.toString() || "",
-			unitPrice: product?.unitPrice?.toString() || "",
+			name: "",
+			description: "",
+			quantity: "",
+			unitPrice: "",
 		},
 	});
+
+	useEffect(() => {
+		if (product) {
+			reset({
+				name: product.name,
+				description: product.description,
+				quantity: product.quantity?.toString(),
+				unitPrice: product.unitPrice?.toString(),
+			});
+		}
+	}, [product, reset]);
 
 	const onSubmit = async (data: FormData) => {
 		if (!product) return;
