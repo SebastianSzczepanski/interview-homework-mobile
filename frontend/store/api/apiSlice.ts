@@ -52,6 +52,16 @@ export const api = createApi({
 			},
 			invalidatesTags: (_, __, arg) => [{ type: "Product", id: arg.id }],
 		}),
+		createProduct: builder.mutation<
+			WarehouseItem,
+			Omit<WarehouseItem, "id">
+		>({
+			queryFn: async (data) => {
+				await new Promise((resolve) => setTimeout(resolve, 1000));
+				return { data: { ...data, id: Date.now().toString() } };
+			},
+			invalidatesTags: ["Product"],
+		}),
 	}),
 });
 
@@ -60,4 +70,5 @@ export const {
 	useGetWarehouseProductByIdQuery,
 	useDeleteProductMutation,
 	useUpdateProductMutation,
+	useCreateProductMutation,
 } = api;

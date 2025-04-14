@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Alert, SafeAreaView, StyleSheet } from "react-native";
+import { Alert, SafeAreaView, StyleSheet, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useForm } from "react-hook-form";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -15,12 +15,14 @@ import { ProductErrorState } from "@/components/productDetails/ProductErrorState
 import { ProductForm } from "@/components/productDetails/ProductForm";
 import { ProductImage } from "@/components/productDetails/ProductImage";
 import { ProductLoadingState } from "@/components/productDetails/ProductLoadingState";
+import Button from "@/components/ui/Button";
 
-type FormData = {
+export type FormValues = {
 	name: string;
 	description: string;
 	quantity: string;
 	unitPrice: string;
+	imageUrl: string;
 };
 
 export default function Product() {
@@ -33,12 +35,13 @@ export default function Product() {
 	const [updateProduct, { isLoading: updating }] = useUpdateProductMutation();
 	const [deleteProduct, { isLoading: deleting }] = useDeleteProductMutation();
 
-	const { control, handleSubmit, reset } = useForm<FormData>({
+	const { control, handleSubmit, reset } = useForm<FormValues>({
 		defaultValues: {
 			name: "",
 			description: "",
 			quantity: "",
 			unitPrice: "",
+			imageUrl: "",
 		},
 	});
 
@@ -49,11 +52,12 @@ export default function Product() {
 				description: product.description,
 				quantity: product.quantity?.toString(),
 				unitPrice: product.unitPrice?.toString(),
+				imageUrl: product.imageUrl,
 			});
 		}
 	}, [product, reset]);
 
-	const onSubmit = async (data: FormData) => {
+	const onSubmit = async (data: FormValues) => {
 		if (!product) return;
 		try {
 			await updateProduct({
@@ -95,6 +99,8 @@ export default function Product() {
 	if (isLoading) return <ProductLoadingState />;
 	if (!product) return <ProductErrorState onBack={router.back} />;
 
+	const productMutationLoading = updating || deleting;
+	
 	return (
 		<>
 			<ScreenHeader title="Product Details" />
@@ -106,12 +112,25 @@ export default function Product() {
 				>
 					<ProductImage uri={product.imageUrl} />
 					<ProductDetails product={product} />
-					<ProductForm
-						control={control}
-						onSubmit={handleSubmit(onSubmit)}
-						onDelete={handleDelete}
-						loading={updating || deleting}
-					/>
+					<ProductForm control={control} title="Update product" />
+
+					<View style={styles.buttons}>
+						<Button
+							onPress={handleDelete}
+							disabled={productMutationLoading}
+							title="Delete"
+							style={styles.deleteButton}
+							loading={productMutationLoading}
+							variant="secondary"
+						/>
+						<Button
+							onPress={handleSubmit(onSubmit)}
+							disabled={productMutationLoading}
+							title="Update"
+							style={styles.updateButton}
+							loading={productMutationLoading}
+						/>
+					</View>
 				</KeyboardAwareScrollView>
 			</SafeAreaView>
 		</>
@@ -122,5 +141,18 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "white",
+	},
+	buttons: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		marginTop: 16,
+		paddingHorizontal: 16,
+	},
+	deleteButton: {
+		flex: 1,
+	},
+	updateButton: {
+		flex: 1,
+		marginLeft: 8,
 	},
 });

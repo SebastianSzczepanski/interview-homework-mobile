@@ -1,7 +1,7 @@
 import React from "react";
 import {
 	StyleSheet,
-	TouchableOpacity,
+	Pressable,
 	useColorScheme,
 	View,
 } from "react-native";
@@ -26,13 +26,13 @@ export const ProductListHeader = () => {
 	};
 
 	const handleAddProductPress = () => {
-		// TODO: Add product logic
+		router.push("/createProduct");
 	};
 
 	return (
 		<View style={styles.header} testID="product-list-header">
 			<View style={styles.actionsContainer}>
-				<TouchableOpacity
+				<Pressable
 					style={styles.cartIconContainer}
 					onPress={handleCartPress}
 				>
@@ -53,9 +53,9 @@ export const ProductListHeader = () => {
 							</ThemedText>
 						</View>
 					)}
-				</TouchableOpacity>
+				</Pressable>
 
-				<TouchableOpacity
+				<Pressable
 					style={styles.addButton}
 					onPress={handleAddProductPress}
 				>
@@ -65,7 +65,7 @@ export const ProductListHeader = () => {
 						weight="medium"
 						color={textColor}
 					/>
-				</TouchableOpacity>
+				</Pressable>
 			</View>
 		</View>
 	);
