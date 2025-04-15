@@ -1,20 +1,22 @@
 import React from "react";
-import { View, Pressable, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { useSelector } from "react-redux";
-import { selectProductsToShipCount, selectTotalPriceToShip } from "@/store/shipment/selectors";
+import {
+	selectProductsToShipCount,
+	selectTotalPriceToShip,
+} from "@/store/shipment/selectors";
+import Button from "../ui/Button";
 
 type CartSummaryProps = {
-
-	onCheckout?: () => void;
+	onCheckout: () => void;
 };
 
-export const CartSummary = ({  onCheckout }: CartSummaryProps) => {
-
+export const CartSummary = ({ onCheckout }: CartSummaryProps) => {
 	const totalItems = useSelector(selectProductsToShipCount);
 	const totalPrice = useSelector(selectTotalPriceToShip);
-	
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.row}>
@@ -29,9 +31,11 @@ export const CartSummary = ({  onCheckout }: CartSummaryProps) => {
 				</ThemedText>
 			</View>
 
-			<Pressable style={styles.button} onPress={onCheckout}>
-				<ThemedText style={styles.buttonText}>Checkout</ThemedText>
-			</Pressable>
+			<Button
+				style={styles.button}
+				onPress={onCheckout}
+				title="Checkout"
+			></Button>
 		</View>
 	);
 };
@@ -59,10 +63,6 @@ const styles = StyleSheet.create({
 		color: "#0A0A32",
 	},
 	button: {
-		backgroundColor: "#0A0A32",
-		padding: 16,
-		borderRadius: 8,
-		alignItems: "center",
 		marginTop: 16,
 	},
 	buttonText: {

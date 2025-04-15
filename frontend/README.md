@@ -12,6 +12,27 @@ To mock API responses, I used Faker.js — that’s why you’ll notice differen
 
 The project already included predefined styles, so I assumed you wanted to keep them as-is. In a real production app, I’d prefer to use a styling library like Unistyles, or even a component library like Tamagui or Gluestack.
 
+To run the tests, use:
+
+ ```bash
+ npm run test
+   ```
+
+To run the app:
+First, install the new dependencies
+
+ ```bash
+ npm ci
+   ```
+
+Then start the app:
+
+ ```bash
+npm run ios
+or
+npm run android
+   ```
+
 If you have any questions, I’d be happy to answer them.
 Enjoy the review!
 
